@@ -10,8 +10,10 @@ const app = express();
 
 // CORS — allow frontend origin
 const allowedOrigins = [
-  process.env.CLIENT_URL || "http://localhost:3000",
-];
+  "http://localhost:3000",
+  "https://frontend-kappa-three-15.vercel.app",
+  process.env.CLIENT_URL,
+].filter(Boolean);
 app.use(
   cors({
     origin: (origin, callback) => {
