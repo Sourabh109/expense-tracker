@@ -1,0 +1,22 @@
+name: Keep Render Awake
+
+on:
+  schedule:
+    # Ping every 14 minutes (Render sleeps after 15 min)
+    - cron: '*/14 * * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render Backend
+        run: |
+          echo "Pinging Render backend to keep it awake..."
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://expense-tracker-oywk.onrender.com/)
+          echo "Response status: $STATUS"
+          if [ "$STATUS" = "200" ]; then
+            echo "✅ Server is awake and running!"
+          else
+            echo "⚠️ Server returned status $STATUS"
+          fi
